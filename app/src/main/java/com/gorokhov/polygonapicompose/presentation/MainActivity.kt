@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
                 val screenState = viewModel.screenState.collectAsState()
                 when(val currentState = screenState.value) {
                     is ScreenState.Content -> {
-                        Log.d("MainActivity", "${currentState.barList}")
+                        Terminal(bars = currentState.barList)
                     }
                     is ScreenState.Initial -> {
 
