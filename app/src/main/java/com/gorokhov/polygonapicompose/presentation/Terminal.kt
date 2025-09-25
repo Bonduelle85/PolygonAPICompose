@@ -7,9 +7,9 @@ import androidx.compose.foundation.gestures.TransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -26,9 +26,7 @@ private const val MIN_VISIBLE_BARS_COUNT = 20
 @Composable
 fun Terminal(bars: List<Bar>) {
 
-    var terminalState by rememberSaveable {
-        mutableStateOf(TerminalState(bars = bars))
-    }
+    var terminalState by rememberTerminalState(bars)
 
     val transformableState = TransformableState { zoomChange, panChange, _ ->
         // Обновляем количество видимых баров с ограничением
@@ -97,4 +95,12 @@ data class TerminalState(
             return bars.subList(fromIndex = startIndex, toIndex = endIndex)
         }
 }
+
+@Composable
+fun rememberTerminalState(bars: List<Bar>): MutableState<TerminalState> {
+    return rememberSaveable {
+        mutableStateOf(TerminalState(bars = bars))
+    }
+}
+
 
