@@ -15,18 +15,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PolygonAPIComposeTheme {
-                TestSaver()
+                val viewModel: AppViewModel = viewModel()
+                val screenState = viewModel.screenState.collectAsState()
+                when(val currentState = screenState.value) {
+                    is ScreenState.Content -> {
+                        Terminal(bars = currentState.barList)
+                    }
+                    is ScreenState.Initial -> {
 
-//                val viewModel: AppViewModel = viewModel()
-//                val screenState = viewModel.screenState.collectAsState()
-//                when(val currentState = screenState.value) {
-//                    is ScreenState.Content -> {
-//                        Terminal(bars = currentState.barList)
-//                    }
-//                    is ScreenState.Initial -> {
-//
-//                    }
-//                }
+                    }
+                }
             }
         }
     }

@@ -47,11 +47,11 @@ fun TestSaver() {
     }
 }
 
-// 1. Parcelable - один из вариантов, если есть доступ к классу и можем "навесить" @Parcelize
+// 1. Parcelable - один из вариантов, если есть доступ к классу и можем "навесить" @Parcelize (и использовать autoSaver)
 @Parcelize
 data class TestDataParcelable(val number: Int): Parcelable
 
-// 2. Custom Saver с одним параметром
+// 2. Custom Saver с для класса с одним свойством
 data class TestDataSaverOne(val number: Int) {
 
     companion object {
@@ -66,7 +66,7 @@ data class TestDataSaverOne(val number: Int) {
     }
 }
 
-// 3. Custom Saver с множеством параметров
+// 3. Custom Saver с для класса с несколькими свойствами
 data class TestDataSaverMany(val number: Int, val text: String) {
 
     companion object {
