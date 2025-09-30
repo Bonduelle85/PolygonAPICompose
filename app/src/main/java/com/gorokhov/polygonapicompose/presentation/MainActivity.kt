@@ -1,7 +1,6 @@
 package com.gorokhov.polygonapicompose.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,9 +16,11 @@ class MainActivity : ComponentActivity() {
             PolygonAPIComposeTheme {
                 val viewModel: AppViewModel = viewModel()
                 val screenState = viewModel.screenState.collectAsState()
-                when(val currentState = screenState.value) {
+                when (val currentState = screenState.value) {
                     is ScreenState.Content -> {
-                        Terminal(bars = currentState.barList)
+                        Terminal(
+                            bars = currentState.barList
+                        )
                     }
                     is ScreenState.Initial -> {
 
