@@ -1,6 +1,5 @@
 package com.gorokhov.polygonapicompose.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorokhov.polygonapicompose.data.ApiFactory
@@ -17,21 +16,22 @@ class AppViewModel : ViewModel() {
     private val _screenState = MutableStateFlow<ScreenState>(ScreenState.Initial)
     val screenState: StateFlow<ScreenState> = _screenState.asStateFlow()
 
+    private var _cachedState: ScreenState = ScreenState.Initial
+
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Log.d(
-            "AppViewModel",
-            "Exception caught by CoroutineExceptionHandler in AppViewModel: ${throwable.message}"
-        )
+        _screenState.value = ScreenState.Loading // тут нужно обработать ошибку загрузки данных
     }
 
     init {
-        loadData()
+        loadBarList()
     }
 
-    private fun loadData() {
+    fun loadBarList(timeFrame: TimeFrame = TimeFrame.HOUR_1) {
+        _cachedState = _screenState.value
+        _screenState.value = ScreenState.Loading
         viewModelScope.launch(exceptionHandler) {
-            val bars = apiService.loadBars().barList
-            _screenState.value = ScreenState.Content(bars)
+            val bars = apiService.loadBars(timeFrame = timeFrame.value).barList
+            _screenState.value = ScreenState.Content(barList = bars, timeFrame = timeFrame)
         }
     }
 }

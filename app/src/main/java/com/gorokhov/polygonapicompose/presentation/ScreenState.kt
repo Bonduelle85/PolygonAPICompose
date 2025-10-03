@@ -6,7 +6,10 @@ sealed class ScreenState {
 
     data object Initial : ScreenState()
 
+    data object Loading: ScreenState()
+
     class Content(
-        val barList: List<Bar>
+        val barList: List<Bar>,
+        val timeFrame: TimeFrame
     ) : ScreenState()
 }
